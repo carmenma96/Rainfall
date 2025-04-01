@@ -63,14 +63,11 @@ tab1, tab2,  = st.tabs([
 url = "https://raw.githubusercontent.com/carmenma96/rainfall/main/train.csv"
 data = pd.read_csv(url)
 
-
-# data = pd.read_csv("train.csv")
 X = data.drop(columns=["rainfall"])
 X = preprocesamiento(X) 
 columnas = X.columns
 dtypes = X.dtypes
 
-#vamos a poner todo este bloque esto en en la tab 1 , pestaña de predicción
 
 # ======================== PESTAÑA DE PREDICCIÓN ========================
 with tab1:
