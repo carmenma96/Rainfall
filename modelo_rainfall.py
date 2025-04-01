@@ -6,7 +6,7 @@ import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-from sklearn.datasets import load_breast_cancer
+
 
 # Configuración
 st.set_page_config(page_title="Predicción de Lluvia", layout="wide")
@@ -14,10 +14,10 @@ st.title("🌧️ Predicción de Lluvia")
 shap.initjs()
 
 # Cargar modelo
-modelo = joblib.load("modelo_rainfall.pkl")  # Asegúrate de que el nombre es correcto
+modelo = joblib.load("modelo_rainfall.pkl") 
 
 
-# Preprocesamiento de datos (si tienes una función de preprocesamiento)
+# Preprocesamiento de datos 
 def preprocesamiento(data):
     #Creación de nuevas columnas
     data['humidity x cloud']= data['humidity']*data['cloud']
@@ -60,9 +60,9 @@ tab1, tab2,  = st.tabs([
 
 
 # Cargar y preprocesar los datos de entrenamiento para obtener columnas reales
-data = pd.read_csv("/Users/carmenmartinarenos/MyCarpetaPython/KAGGLE2/train.csv")
+data = pd.read_csv("train.csv")
 X = data.drop(columns=["rainfall"])
-X = preprocesamiento(X)  # <- Carmen, esto te da exactamente las columnas que el modelo espera
+X = preprocesamiento(X) 
 columnas = X.columns
 dtypes = X.dtypes
 
