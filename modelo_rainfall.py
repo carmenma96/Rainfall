@@ -60,7 +60,11 @@ tab1, tab2,  = st.tabs([
 
 
 # Cargar y preprocesar los datos de entrenamiento para obtener columnas reales
-data = pd.read_csv("train.csv")
+url = "https://raw.githubusercontent.com/carmenma96/rainfall/main/train.csv"
+data = pd.read_csv(url)
+
+
+# data = pd.read_csv("train.csv")
 X = data.drop(columns=["rainfall"])
 X = preprocesamiento(X) 
 columnas = X.columns
@@ -98,7 +102,7 @@ with tab1:
     input_data = preprocesamiento(input_data)
 
     # Reconstruir esquema del modelo usando train.csv
-    data_entrenamiento = pd.read_csv("train.csv")
+    data_entrenamiento = pd.read_csv(url)
     X_entrenamiento = preprocesamiento(data_entrenamiento.drop(columns=["rainfall"]))
     columnas = X_entrenamiento.columns
     dtypes = X_entrenamiento.dtypes
