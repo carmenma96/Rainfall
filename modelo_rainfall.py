@@ -74,13 +74,14 @@ with tab1:
 
     # Sidebar: captura de entradas del usuario
     st.sidebar.header("Ajusta los valores de entrada")
-    humidity = st.sidebar.slider("Humedad", float(data['humidity'].min()), float(data['humidity'].max()), float(data['humidity'].mean()))
-    cloud = st.sidebar.slider("Nubes", float(data['cloud'].min()), float(data['cloud'].max()), float(data['cloud'].mean()))
-    dewpoint = st.sidebar.slider("Punto de rocío", float(data['dewpoint'].min()), float(data['dewpoint'].max()), float(data['dewpoint'].mean()))
-    maxtemp = st.sidebar.slider("Temperatura máxima", float(data['maxtemp'].min()), float(data['maxtemp'].max()), float(data['maxtemp'].mean()))
-    mintemp = st.sidebar.slider("Temperatura mínima", float(data['mintemp'].min()), float(data['mintemp'].max()), float(data['mintemp'].mean()))
-    pressure = st.sidebar.slider("Presión", float(data['pressure'].min()), float(data['pressure'].max()), float(data['pressure'].mean()))
-    sunshine = st.sidebar.slider("Sol", float(data['sunshine'].min()), float(data['sunshine'].max()), float(data['sunshine'].mean()))
+    
+    humidity = st.sidebar.slider("Humedad", 0.0, 100.0, 50.0)
+    cloud = st.sidebar.slider("Nubes", 0.0, 100.0, 50.0)
+    dewpoint = st.sidebar.slider("Punto de rocío", -10.0, 30.0, 10.0)
+    maxtemp = st.sidebar.slider("Temperatura máxima", -10.0, 50.0, 25.0)
+    mintemp = st.sidebar.slider("Temperatura mínima", -10.0, 30.0, 15.0)
+    pressure = st.sidebar.slider("Presión", 900.0, 1100.0, 1013.0)
+    sunshine = st.sidebar.slider("Sol", 0.0, 15.0, 7.0)
 
     # Crear DataFrame base
     input_data = pd.DataFrame({
