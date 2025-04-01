@@ -80,15 +80,30 @@ with tab1:
     col1, col2 = st.columns(2)
 
     with col1:
-        humidity = st.slider("Humedad", 0.0, 100.0, 50.0)
-        cloud = st.slider("Nubes", 0.0, 100.0, 50.0)
-        dewpoint = st.slider("Punto de rocío", -10.0, 30.0, 10.0)
+        humidity = st.slider("💧 Humedad", 0.0, 100.0, 50.0)
+        with st.expander("ℹ️ ¿Cómo afecta la humedad?"):
+            st.write("🔼 Alta: Aumenta la probabilidad de lluvia. \n🔽 Baja: Reduce la probabilidad de lluvia.")
+        cloud = st.slider("☁️ Nubes", 0.0, 100.0, 50.0)
+        with st.expander("ℹ️ Porcentaje de cielo cubierto por nubes"):
+            st.write("🔼 Muchas nubes: Indican posible lluvia. \n🔽 Pocas nubes: Menor probabilidad de lluvia.")
+        dewpoint = st.slider("💦 Punto de rocío", -10.0, 30.0, 10.0)
+        with st.expander("ℹ️ ¿Cómo influye el punto de rocío?"):
+            st.write("🔼 Alto: Indica aire húmedo, posible lluvia. \n🔽 Bajo: Aire seco, menor probabilidad de lluvia.")
+
         
     with col2:
-        maxtemp = st.slider("Temperatura máxima", -10.0, 50.0, 25.0)
-        mintemp = st.slider("Temperatura mínima", -10.0, 30.0, 15.0)
-        pressure = st.slider("Presión", 900.0, 1100.0, 1013.0)
-        sunshine = st.slider("Sol", 0.0, 15.0, 7.0)
+        maxtemp = st.slider("🌡️ Temperatura máxima", -10.0, 50.0, 25.0)
+        with st.expander("ℹ️ ¿Cómo influye la temperatura máxima?"):
+            st.write("🔼 Alta: Puede evaporar humedad y reducir la probabilidad de lluvia. \n🔽 Baja: Favorece la condensación y la probabilidad de lluvia.")
+        mintemp = st.slider("🌡️ Temperatura mínima", -10.0, 30.0, 15.0)
+        with st.expander("ℹ️ ¿Cómo influye la temperatura mínima?"):
+            st.write("🔼 Alta: Menos cambios térmicos, menor probabilidad de lluvia. \n🔽 Baja: Puede favorecer la formación de nubes y la probabilidad de lluvia aumenta.")
+        pressure = st.slider("🧭 Presión", 900.0, 1100.0, 1013.0)
+        with st.expander("ℹ️ ¿Cómo afecta la presión?"):
+            st.write("🔼 Alta: Indica tiempo estable, menor probabilidad de lluvia. \n🔽 Baja: Puede indicar tormentas y lluvia.")
+        sunshine = st.slider("☀️ Sol", 0.0, 15.0, 7.0)
+        with st.expander("ℹ️ ¿Cómo influyen las horas de sol?"):
+            st.write("🔼 Muchas horas: Reduce la probabilidad de lluvia. \n🔽 Pocas horas: Indica cielos nublados, posible lluvia.")
 
 
         # Crear DataFrame con los valores del usuario
@@ -113,9 +128,9 @@ with tab1:
         # Mostrar resultado
         st.subheader("Resultado de la Predicción")
         if prediction[0] == 1:
-            st.write("🌧️ **Lluvia pronosticada!**")
+            st.write("🌧️ **Parece que va a llover, mejor lleva paraguas ☔️**")
         else:
-            st.write("☀️ **No se espera lluvia.**")
+            st.write("☀️ **No se espera lluvia**")
         st.write(f"Probabilidad de lluvia: **{probabilidad[0]:.2f}**")
 
 
