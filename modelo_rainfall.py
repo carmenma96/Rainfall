@@ -90,8 +90,7 @@ with tab1:
         pressure = st.slider("Presión", 900.0, 1100.0, 1013.0)
         sunshine = st.slider("Sol", 0.0, 15.0, 7.0)
 
-    # Botón para realizar la predicción
-    if st.button("🔍 Predecir Lluvia"):
+
         # Crear DataFrame con los valores del usuario
         input_data = pd.DataFrame({
             "humidity": [humidity],
