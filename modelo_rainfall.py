@@ -76,61 +76,49 @@ dtypes = X.dtypes
 with tab1:
     st.header("🌧️ Predicción de Lluvia en Tiempo Real")
 
-    # Sidebar: captura de entradas del usuario
-    st.sidebar.header("Ajusta los valores de entrada")
-    
-    humidity = st.sidebar.slider("Humedad", 0.0, 100.0, 50.0)
-    cloud = st.sidebar.slider("Nubes", 0.0, 100.0, 50.0)
-    dewpoint = st.sidebar.slider("Punto de rocío", -10.0, 30.0, 10.0)
-    maxtemp = st.sidebar.slider("Temperatura máxima", -10.0, 50.0, 25.0)
-    mintemp = st.sidebar.slider("Temperatura mínima", -10.0, 30.0, 15.0)
-    pressure = st.sidebar.slider("Presión", 900.0, 1100.0, 1013.0)
-    sunshine = st.sidebar.slider("Sol", 0.0, 15.0, 7.0)
+    # Distribuir sliders en dos columnas para mejor diseño
+    col1, col2 = st.columns(2)
 
-    # Crear DataFrame base
-    input_data = pd.DataFrame({
-        "humidity": [humidity],
-        "cloud": [cloud],
-        "dewpoint": [dewpoint],
-        "maxtemp": [maxtemp],
-        "mintemp": [mintemp],
-        "pressure": [pressure],
-        "sunshine": [sunshine]
-    })
+    with col1:
+        humidity = st.slider("Humedad", 0.0, 100.0, 50.0)
+        cloud = st.slider("Nubes", 0.0, 100.0, 50.0)
+        dewpoint = st.slider("Punto de rocío", -10.0, 30.0, 10.0)
+        
+    with col2:
+        maxtemp = st.slider("Temperatura máxima", -10.0, 50.0, 25.0)
+        mintemp = st.slider("Temperatura mínima", -10.0, 30.0, 15.0)
+        pressure = st.slider("Presión", 900.0, 1100.0, 1013.0)
+        sunshine = st.slider("Sol", 0.0, 15.0, 7.0)
 
-    # Aplicar preprocesamiento
-    input_data = preprocesamiento(input_data)
+    # Botón para realizar la predicción
+    if st.button("🔍 Predecir Lluvia"):
+        # Crear DataFrame con los valores del usuario
+        input_data = pd.DataFrame({
+            "humidity": [humidity],
+            "cloud": [cloud],
+            "dewpoint": [dewpoint],
+            "maxtemp": [maxtemp],
+            "mintemp": [mintemp],
+            "pressure": [pressure],
+            "sunshine": [sunshine]
+        })
 
-    # Reconstruir esquema del modelo usando train.csv
-    data_entrenamiento = pd.read_csv(url)
-    X_entrenamiento = preprocesamiento(data_entrenamiento.drop(columns=["rainfall"]))
-    columnas = X_entrenamiento.columns
-    dtypes = X_entrenamiento.dtypes
+        # Preprocesar y predecir
+        input_data = preprocesamiento(input_data)
+        input_data = input_data.reindex(columns=columnas, fill_value=0)
+        input_data = input_data.astype(dtypes.to_dict())
 
-    # Alinear el input con el modelo
-    input_data = input_data.reindex(columns=columnas, fill_value=0)
-    input_data = input_data.astype(dtypes.to_dict())
+        prediction = modelo.predict(input_data)
+        probabilidad = modelo.predict_proba(input_data)[:, 1]
 
-    # Predicción
-    prediction = modelo.predict(input_data)
-    probabilidad = modelo.predict_proba(input_data)[:, 1]
+        # Mostrar resultado
+        st.subheader("Resultado de la Predicción")
+        if prediction[0] == 1:
+            st.write("🌧️ **Lluvia pronosticada!**")
+        else:
+            st.write("☀️ **No se espera lluvia.**")
+        st.write(f"Probabilidad de lluvia: **{probabilidad[0]:.2f}**")
 
-    # Mostrar resultados
-    st.subheader("Resultado de la predicción")
-    if prediction[0] == 1:
-        st.write("🌧️ Lluvia pronosticada!")
-    else:
-        st.write("☀️ No se espera lluvia.")
-    st.write(f"Probabilidad de lluvia: {probabilidad[0]:.2f}")
-
-    # SHAP (si está habilitado)
-    st.subheader("Importancia de las características")
-    explainer = shap.TreeExplainer(modelo)
-    shap_values = explainer.shap_values(input_data)
-    shap.initjs()
-    shap.summary_plot(shap_values, input_data)
-
-    
 
 # ======================== PESTAÑA DE EXPLORACIÓN ========================
 with tab2:
